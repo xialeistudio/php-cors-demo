@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/axios/0.19.0/axios.min.js"></script>
+</head>
+<body>
+
+<button id="get">GET请求</button>
+<div id="getResponse">GET响应：</div>
+<button id="post">POST请求</button>
+<div id="postResponse">POST响应：</div>
+
+<script>
+    const config = {
+        headers: {
+            Token: 'token'
+        }
+    };
+
+    const btnGet = document.querySelector('#get');
+    const btnPost = document.querySelector('#post');
+
+    btnGet.addEventListener('click', function (e) {
+        btnGet.setAttribute('disabled', 'disabled');
+        axios.get('http://localhost:10000/getapi.php', config)
+            .then(response => document.querySelector('#getResponse').innerHTML = JSON.stringify(response.data))
+            .catch(e => console.error(e))
+            .finally(() => btnGet.removeAttribute('disabled'));
+    }, false);
+
+    btnPost.addEventListener('click', function (e) {
+        btnPost.setAttribute('disabled', 'disabled');
+
+        const data = {name: '张安', age: 1};
+        axios.post('http://localhost:10000/postapi.php', data, config)
+            .then(response => document.querySelector('#postResponse').innerHTML = JSON.stringify(response.data))
+            .catch(e => console.error(e))
+            .finally(() => btnPost.removeAttribute('disabled'));
+    }, false);
+
+
+</script>
+</body>
+</html>
